@@ -1,0 +1,14 @@
+{
+  "name": "matter",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "app": "cd app && bun run dev"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
