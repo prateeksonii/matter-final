@@ -10,6 +10,8 @@
     "kit": "drizzle-kit"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.27.2",
+    "@clerk/themes": "^1.7.9",
     "drizzle-orm": "^0.29.0",
     "geist": "^1.1.0",
     "next": "14.0.3",

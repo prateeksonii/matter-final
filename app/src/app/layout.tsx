@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
 import { Manrope } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -19,8 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={manrope.variable}>
-      <body>{children}</body>
-    </html>
+    <ClerkProvider appearance={{ baseTheme: dark }}>
+      <html lang="en" className={manrope.variable}>
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
