@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-manrope)", ...fontFamily.sans],
+        sans: ["Manrope", ...fontFamily.sans],
       },
       colors: {
         shark: {
@@ -26,6 +26,19 @@ const config: Config = {
           "900": "#363c43",
           "950": "#262b31",
         },
+        tumbleweed: {
+          "50": "#fbf6f1",
+          "100": "#f5eadf",
+          "200": "#ead2be",
+          "300": "#d9ad8c",
+          "400": "#cd8f6a",
+          "500": "#c2734d",
+          "600": "#b46042",
+          "700": "#964b38",
+          "800": "#793e33",
+          "900": "#62362c",
+          "950": "#351915",
+        },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -34,6 +47,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 };
 export default config;

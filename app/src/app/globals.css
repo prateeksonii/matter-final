@@ -8,5 +8,5 @@
 }
 
 body {
-  @apply text-shark-950;
+  @apply bg-shark-950 text-shark-50 min-h-screen;
 }

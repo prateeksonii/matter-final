@@ -6,6 +6,7 @@
     "app": "cd app && bun run dev"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
     "bun-types": "latest"
   },
   "peerDependencies": {
