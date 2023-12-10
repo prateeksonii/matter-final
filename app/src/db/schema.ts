@@ -20,6 +20,13 @@ export const projects = pgTable("projects", {
   createdBy: integer("created_by").references(() => users.id),
 });
 
+export const taskStatuses = pgTable('task_statuses', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', {
+    length: 50
+  }).notNull()
+})
+
 export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
   name: varchar("name"),
@@ -34,4 +41,6 @@ export const tasks = pgTable("tasks", {
     .references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
   assignedTo: integer("assigned_to").references(() => users.id),
+  budget: integer('budget').default(0),
+  statusId: integer('status_id').references(() => taskStatuses.id)
 });

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useFormState } from "react-dom";
 
 export default function Home() {
   return (

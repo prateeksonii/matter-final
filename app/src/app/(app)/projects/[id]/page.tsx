@@ -14,23 +14,11 @@ const getProjectById = async (id: string) => {
   return db
     .select()
     .from(projects)
-    .innerJoin(tasks, eq(tasks.projectId, projects.id))
-    .where(eq(projects.id, +id))
-    .orderBy(desc(tasks.createdAt));
-};
-
-const searchTasks = async (formData: FormData) => {
-  "use server";
-  console.log("search");
-
-  return;
+    .where(eq(projects.id, +id)).limit(1);
 };
 
 export default async function ProjectDetailsPage(props: Props) {
-  const data = await getProjectById(props.params.id);
-  const tasks = data.map((d) => d.tasks);
-  const project = data[0].projects;
-
+  const project = (await getProjectById(props.params.id))[0];
   if (!project) {
     return <div>Invalid ID</div>;
   }
