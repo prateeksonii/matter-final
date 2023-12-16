@@ -40,7 +40,7 @@ export default function CreateTaskInput(props: Props) {
   return (
     <>
       <Input
-        onChange={(e) => setName(e.currentTarget.value)}
+        onChange={(e) => setName((e.currentTarget as any).value)}
         type="text"
         name="name"
         value={name}

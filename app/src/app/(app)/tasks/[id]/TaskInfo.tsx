@@ -101,7 +101,7 @@ export default function TaskInfo(props: TaskInfoProps) {
                 name="name"
                 className="bg-transparent w-full rounded-md focus-within:bg-stone-900 text-xl border-none px-2 py-1 text-stone-50 font-bold"
                 value={task.name ?? ""}
-                onChange={(e) => handleChange(e.target.value, "name")}
+                onChange={(e) => handleChange((e.target as any).value, "name")}
               />
             </CardTitle>
             <CardDescription>
@@ -109,7 +109,9 @@ export default function TaskInfo(props: TaskInfoProps) {
                 className="bg-transparent rounded-md focus-within:bg-stone-900 w-full text-md mt-3 border-none p-2 text-stone-200"
                 value={task.description ?? ""}
                 placeholder="No description provided"
-                onChange={(e) => handleChange(e.target.value, "description")}
+                onChange={(e) =>
+                  handleChange((e.target as any).value, "description")
+                }
               />
             </CardDescription>
           </CardHeader>
@@ -132,7 +134,9 @@ export default function TaskInfo(props: TaskInfoProps) {
                   className="appearance-none [-moz-appearance:textfield]"
                   type="number"
                   id="budget"
-                  onChange={(e) => handleChange(+e.target.value, "budget")}
+                  onChange={(e) =>
+                    handleChange(+(e.target as any).value, "budget")
+                  }
                   value={task.budget ?? 0}
                 />
               </div>
