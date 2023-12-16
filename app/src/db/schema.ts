@@ -54,3 +54,20 @@ export const tasks = pgTable("tasks", {
     .default(1)
     .references(() => taskStatuses.id),
 });
+
+export const auditEntityTypes = pgTable("audit_entities", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", {
+    length: 50,
+  }),
+});
+
+export const auditLogs = pgTable("audit_logs", {
+  id: serial("id").primaryKey(),
+  entityId: integer("entity_id").notNull(),
+  entityTypeId: integer("entity_type_id")
+    .notNull()
+    .references(() => auditEntityTypes.id),
+  changes: varchar("changes"),
+  date: timestamp("date").defaultNow(),
+});

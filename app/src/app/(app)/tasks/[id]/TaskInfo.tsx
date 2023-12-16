@@ -1,7 +1,13 @@
 "use client";
 
 import { Check, ChevronsUpDown } from "lucide-react";
-import { projectUsers, taskStatuses, tasks, users } from "@/db/schema";
+import {
+  auditLogs,
+  projectUsers,
+  taskStatuses,
+  tasks,
+  users,
+} from "@/db/schema";
 import { useEffect, useRef, useState } from "react";
 import { updateTask } from "./actions";
 import { Input } from "@/components/ui/input";
@@ -34,7 +40,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TypographyLead } from "@/components/typography";
 
 interface TaskInfoProps {
   task: typeof tasks.$inferSelect;
@@ -43,6 +48,7 @@ interface TaskInfoProps {
     project_users: typeof projectUsers.$inferSelect;
     users: typeof users.$inferSelect;
   }[];
+  auditLogs: (typeof auditLogs.$inferSelect)[];
 }
 
 export default function TaskInfo(props: TaskInfoProps) {
@@ -126,7 +132,7 @@ export default function TaskInfo(props: TaskInfoProps) {
                   className="appearance-none [-moz-appearance:textfield]"
                   type="number"
                   id="budget"
-                  onChange={(e) => handleChange(e.target.value, "budget")}
+                  onChange={(e) => handleChange(+e.target.value, "budget")}
                   value={task.budget ?? 0}
                 />
               </div>
@@ -134,7 +140,7 @@ export default function TaskInfo(props: TaskInfoProps) {
                 <Label className="text-xs">Status</Label>
                 <Select
                   value={task.statusId?.toString()}
-                  onValueChange={(v) => handleChange(v, "statusId")}
+                  onValueChange={(v) => handleChange(+v, "statusId")}
                 >
                   <SelectTrigger className="">
                     <SelectValue placeholder="Status" />
@@ -193,7 +199,7 @@ export default function TaskInfo(props: TaskInfoProps) {
                             value={user.value}
                             onSelect={(currentValue) => {
                               setValue(currentValue);
-                              handleChange(currentValue, "assignedTo");
+                              handleChange(+currentValue, "assignedTo");
                               setOpen(false);
                             }}
                           >
@@ -219,6 +225,24 @@ export default function TaskInfo(props: TaskInfoProps) {
             <CardHeader>
               <CardTitle>Audit Logs</CardTitle>
             </CardHeader>
+            <CardContent>
+              {props.auditLogs.length > 0 ? (
+                <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
+                  {props.auditLogs.map((log) => (
+                    <li key={log.id} className="text-sm">
+                      <strong className="capitalize">{log.changes}</strong>{" "}
+                      updated at{" "}
+                      {Intl.DateTimeFormat("en-US", {
+                        dateStyle: "medium",
+                        timeStyle: "short",
+                      }).format(log.date!)}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div>No logs yet</div>
+              )}
+            </CardContent>
           </Card>
         </div>
       </div>
