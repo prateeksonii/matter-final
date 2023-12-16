@@ -25,7 +25,7 @@ export default function CreateTaskInput(props: Props) {
     }, 200);
 
     return () => clearTimeout(search);
-  }, [name]);
+  }, [name, props.projectId]);
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = async (
     event
