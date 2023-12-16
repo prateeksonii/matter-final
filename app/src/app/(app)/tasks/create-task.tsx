@@ -10,6 +10,7 @@ import { createTask, searchTasks } from "./actions";
 import { useRouter } from "next/navigation";
 import { tasks } from "@/db/schema";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   projectId: number;
@@ -43,13 +44,13 @@ export default function CreateTaskInput(props: Props) {
 
   return (
     <>
-      <input
+      <Input
         onChange={(e) => setName(e.currentTarget.value)}
         type="text"
         name="name"
         value={name}
         placeholder="Search tasks or create a new one"
-        className="w-full rounded-md bg-shark-950 focus-within:bg-shark-900 placeholder:text-shark-300"
+        // className="w-full rounded-md bg-stone-950 focus-within:bg-stone-900 placeholder:text-stone-300"
         onKeyDown={handleKeyDown}
       />
       <p className="text-sm prose prose-invert mt-1">
@@ -61,7 +62,7 @@ export default function CreateTaskInput(props: Props) {
           <Link
             href={`/tasks/${task.id}`}
             key={task.id}
-            className="p-3 bg-shark-900 rounded-md block"
+            className="p-3 bg-stone-900 rounded-md block"
           >
             {task.name}
           </Link>

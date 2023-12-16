@@ -14,10 +14,7 @@ export async function POST(req: Request) {
     );
   }
 
-  // Get the headers
   const headerPayload = headers();
-  console.log(headerPayload);
-
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
@@ -53,12 +50,14 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  const { id } = evt.data;
   const eventType = evt.type;
 
   if (eventType === "user.created") {
+    const { id, first_name, last_name } = evt.data;
     await db.insert(users).values({
       clerkId: id!,
+      firstName: first_name,
+      lastName: last_name,
     });
   }
 

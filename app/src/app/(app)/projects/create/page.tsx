@@ -1,7 +1,19 @@
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/db/conn";
-import { projects, users } from "@/db/schema";
+import { projectUsers, projects, users } from "@/db/schema";
 import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function CreateProjectPage() {
@@ -25,43 +37,38 @@ export default function CreateProjectPage() {
         id: projects.id,
       });
 
+    await db.insert(projectUsers).values({
+      projectId: createdProject[0].id,
+      userId: signedInUser[0].id,
+    });
+
     redirect(`/projects/${createdProject[0].id}`);
   };
 
   return (
-    <div className="grid place-items-center flex-1">
-      <div className="grid grid-cols-2 w-full gap-8">
-        <div className="bg-shark-900 p-8 rounded-xl max-w-xl">
-          <h2 className="font-extrabold text-2xl mb-4">Create new project</h2>
-          <form
-            method="post"
-            action={createProject}
-            className="flex flex-col gap-3"
-          >
-            <label className="text-sm flex flex-col" htmlFor="name">
-              Name
-              <input
-                name="name"
-                className="bg-shark-900 rounded-md focus-within:bg-shark-700"
-                required
-              />
-            </label>
-            <label className="text-sm flex flex-col" htmlFor="description">
-              Description
-              <textarea
-                name="description"
-                className="bg-shark-900 rounded-md focus-within:bg-shark-700"
-              />
-            </label>
-            <button className="mt-2 w-full p-2 bg-tumbleweed-300 text-shark-950 font-bold rounded-md hover:bg-tumbleweed-500 transition-all">
-              Continue
-            </button>
-          </form>
-        </div>
-        <div className="text-2xl leading-relaxed space-y-8 self-center">
-          <p>"Creating project is the first step towards finishing it"</p>
-        </div>
-      </div>
-    </div>
+    <Card className="w-[600px]">
+      <CardHeader>
+        <CardTitle>Create project</CardTitle>
+        <CardDescription>
+          You can create upto 5 projects for free
+        </CardDescription>
+      </CardHeader>
+      <form method="post" action={createProject}>
+        <CardContent className="flex flex-col gap-3">
+          <Input name="name" required placeholder="Name" />
+          <Textarea
+            name="description"
+            placeholder="Briefly describe your project (optional)"
+            rows={8}
+          />
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <Button variant="outline" asChild>
+            <Link href="/dashboard">Cancel</Link>
+          </Button>
+          <Button>Create</Button>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }

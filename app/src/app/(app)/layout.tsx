@@ -10,7 +10,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen">
-      <nav className="h-16 bg-shark-900 p-2 flex items-center">
+      <nav className="h-16 bg-stone-900 p-2 flex items-center">
         <div className="text-xl mx-8 uppercase font-extrabold">Matter</div>
         <Link href="/dashboard">Home</Link>
         <span className="ml-auto">

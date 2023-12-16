@@ -9,6 +9,8 @@ import {
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   clerkId: varchar("clerk_id").notNull().unique(),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
 });
 
 export const projects = pgTable("projects", {
@@ -20,12 +22,18 @@ export const projects = pgTable("projects", {
   createdBy: integer("created_by").references(() => users.id),
 });
 
-export const taskStatuses = pgTable('task_statuses', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', {
-    length: 50
-  }).notNull()
-})
+export const projectUsers = pgTable("project_users", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  projectId: integer("project_id").notNull(),
+});
+
+export const taskStatuses = pgTable("task_statuses", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", {
+    length: 50,
+  }).notNull(),
+});
 
 export const tasks = pgTable("tasks", {
   id: serial("id").primaryKey(),
@@ -41,6 +49,8 @@ export const tasks = pgTable("tasks", {
     .references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
   assignedTo: integer("assigned_to").references(() => users.id),
-  budget: integer('budget').default(0),
-  statusId: integer('status_id').references(() => taskStatuses.id)
+  budget: integer("budget").default(0),
+  statusId: integer("status_id")
+    .default(1)
+    .references(() => taskStatuses.id),
 });
