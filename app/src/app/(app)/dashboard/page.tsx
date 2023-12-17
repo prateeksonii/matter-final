@@ -1,6 +1,6 @@
 import { db } from "@/db/conn";
-import { projects, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { projectUsers, projects, tasks, users } from "@/db/schema";
+import { eq, sql } from "drizzle-orm";
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -18,8 +18,28 @@ const getProjects = async () => {
     .limit(5);
 };
 
+const getCounts = async () => {
+  const { userId } = auth();
+  const signedInUser = await db
+    .select()
+    .from(users)
+    .where(eq(users.clerkId, userId!));
+
+  return Promise.all([
+    db
+      .select({
+        projectsCount: sql<number>`cast(count(distinct ${projectUsers.projectId}) as integer)`,
+        tasksCount: sql<number>`cast(count(distinct ${tasks.id}) as integer)`,
+      })
+      .from(projectUsers)
+      .innerJoin(tasks, eq(tasks.projectId, projectUsers.projectId))
+      .where(eq(projectUsers.userId, signedInUser[0].id)),
+  ]);
+};
+
 export default async function Dashboard() {
   const projects = await getProjects();
+  const [projectsCount] = await getCounts();
 
   return (
     <div>
@@ -27,11 +47,15 @@ export default async function Dashboard() {
       <div className="my-4 grid grid-cols-2 gap-8">
         <div className="bg-stone-900 p-8 rounded-lg">
           <h2>Total Projects</h2>
-          <strong className="text-4xl font-extrabold">5</strong>
+          <strong className="text-4xl font-extrabold">
+            {projectsCount[0].projectsCount}
+          </strong>
         </div>
         <div className="bg-stone-900 p-8 rounded-lg">
           <h2>Total Tasks</h2>
-          <strong className="text-4xl font-extrabold">100</strong>
+          <strong className="text-4xl font-extrabold">
+            {projectsCount[0].tasksCount}
+          </strong>
         </div>
       </div>
       <div className="my-8">
