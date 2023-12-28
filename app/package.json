@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "kit": "drizzle-kit"
+    "kit": "drizzle-kit",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.27.2",
@@ -25,6 +26,7 @@
     "geist": "^1.1.0",
     "lucide-react": "^0.294.0",
     "next": "14.0.3",
+    "next-sitemap": "^4.2.3",
     "postgres": "^3.4.3",
     "react": "^18",
     "react-dom": "^18",

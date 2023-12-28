@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://matter-final.vercel.app
+
+# Sitemaps
+Sitemap: https://matter-final.vercel.app/sitemap.xml
