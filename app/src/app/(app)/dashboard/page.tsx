@@ -14,7 +14,7 @@ const getProjects = async () => {
   return db
     .select()
     .from(projects)
-    .where(eq(projects.createdBy, signedInUser[0].id))
+    .where(eq(projects.createdBy, signedInUser[0]?.id))
     .limit(5);
 };
 
