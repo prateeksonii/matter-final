@@ -1,8 +1,9 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { WebhookEvent, currentUser } from "@clerk/nextjs/server";
 import { db } from "@/db/conn";
 import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -54,11 +55,17 @@ export async function POST(req: Request) {
 
   if (eventType === "user.created") {
     const { id, first_name, last_name } = evt.data;
-    await db.insert(users).values({
-      clerkId: id!,
-      firstName: first_name,
-      lastName: last_name,
-    });
+    const user = await db.select().from(users).where(eq(users.clerkId, id));
+    // const sessionUser = await currentUser();
+    // console.log(sessionUser);
+    
+    if (user.length === 0) {
+      await db.insert(users).values({
+        clerkId: id,
+        firstName: first_name,
+        lastName: last_name,
+      });
+    }
   }
 
   return new Response("", { status: 200 });

@@ -11,12 +11,15 @@ export async function createTask(name: string, projectId: number) {
     await db.select().from(users).where(eq(users.clerkId, authUser.userId!))
   )[0];
 
+  console.log(user.id, name, projectId);
+
+
   return db
     .insert(tasks)
     .values({
       createdBy: user.id,
       name,
-      projectId,
+      projectId
     })
     .returning();
 }

@@ -109,7 +109,7 @@ export default function TaskInfo(props: TaskInfoProps) {
                 className="bg-transparent rounded-md focus-within:bg-stone-900 w-full text-md mt-3 border-none p-2 text-stone-200"
                 value={task.description ?? ""}
                 placeholder="No description provided"
-                onChange={(e) =>
+                onBlur={(e) =>
                   handleChange((e.target as any).value, "description")
                 }
               />
